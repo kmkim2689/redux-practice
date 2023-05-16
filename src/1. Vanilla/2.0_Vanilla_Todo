@@ -1,0 +1,50 @@
+vanilla js로 to-do list 만들기
+
+원시적인 방법 : dataless. 그냥 html을 modify하는 방법
+=> 데이터(state)를 사용하지 않고 그냥 html element를 추가하는 방법
+
+- html
+  <body>
+    <h1>To dos</h1>
+    <form>
+      <input type="text" placeholder="to do..." />
+      <button>Add</button>
+    </form>
+    <ul></ul>
+  </body>
+
+- js
+
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+const ul = document.querySelector("ul");
+
+const createToDo = toDo => {
+    // li 태그 요소를 하나 만든다.
+    const li = document.createElement("ul");
+    li.innerText = toDo;
+    // appendChild를 이용하여 ul에 리스트 추가
+    ul.appendChild(li);
+};
+
+const onSubmit = e => {
+    e.preventDefault();
+    // todo input에 적힌 값을 가져오고
+    const toDo = input.value;
+    // 초기화
+    input.value = ""
+    createToDo(toDo);
+};
+
+form.addEventListener("submit", onSubmit);
+
+----------------------------------------------------
+유저가 웹사이트를 나갔다가 다시 돌아왔을 때, 설정했던 toDo들이 그대로 남아있길 바란다면?
+=> data가 있어야 디스크에 정보가 남아있을 수 있게 된다.
+
+배열을 둠으로써 이 문제를 해결할 수는 있겠지만, 스스로 배열을 관리해야 한다는 번거로움이 존재
+=> 수많은 함수들이 필요
+
+더 나은 방법이 바로 redux를 사용하는 것
+
+redux를 사용할 때 reducer에서 주의해야 할 점 : state를 변경하면 안된다. 즉, store를 수정할 수 있는 유일한 방법은 action을 보내는 것 뿐이다. 또한 state를 수정하는 대신, new state objects를 리턴해야함
